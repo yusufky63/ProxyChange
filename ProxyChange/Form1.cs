@@ -15,26 +15,7 @@ namespace ProxyChange
         RegistryKey registry = Registry.CurrentUser.OpenSubKey
             ("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //Proxyi Uygula
-            registry.SetValue("ProxyEnable", 1);
-            registry.SetValue("ProxyServer", textBox1.Text + ":" + textBox2.Text);
-            registry.SetValue("ProxyOverride", richTextBox1.Text);
-
-            UpdateProxy();
-            label4.Text = "Aktif";
-            label4.ForeColor = Color.Green;
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //Temizle
-            textBox1.Text = "";
-            textBox2.Text = "";
-            richTextBox1.Text = "";
-        }
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -42,23 +23,6 @@ namespace ProxyChange
             UpdateProxy();
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            //Devre Dışı Bırakır
-            registry.SetValue("ProxyEnable", 0);
-            registry.SetValue("ProxyServer", "");
-            registry.SetValue("ProxyOverride", "");
-            label4.Text = "Kapalı";
-            label4.ForeColor = Color.Red;
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //Sıfırlar
-            registry.SetValue("ProxyServer", "");
-            registry.SetValue("ProxyOverride", "");
-        }
 
 
         void UpdateProxy()
@@ -72,10 +36,10 @@ namespace ProxyChange
                 string get_proxy_Override = registry.GetValue("ProxyOverride").ToString();
 
                 string[] adress = get_proxy.Split(':');
-                textBox3.Text = adress[1];
-                textBox4.Text = adress[0];
+                _proxyPORT.Text = adress[1];
+                _proxyIP.Text = adress[0];
 
-                richTextBox2.Text = get_proxy_Override;
+                _proxyAdress.Text = get_proxy_Override;
                 label4.Text = "Aktif";
                 label4.ForeColor = Color.Green;
 
@@ -89,19 +53,51 @@ namespace ProxyChange
 
         }
 
-        private void button6_Click(object sender, EventArgs e)
+
+        private void guna2Button2_Click(object sender, EventArgs e)
         {
-            textBox1.Text += ".";
+            proxyIP.Text = "192.168.";
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void guna2Button6_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "192.168.";
+            proxyIP.Text += ".";
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void guna2Button3_Click(object sender, EventArgs e)
         {
-            textBox2.Text = "8080";
+            proxyPORT.Text = "8080";
         }
+
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            //Proxyi Uygula
+            registry.SetValue("ProxyEnable", 1);
+            registry.SetValue("ProxyServer", proxyIP.Text + ":" + proxyPORT.Text);
+            registry.SetValue("ProxyOverride", proxyAdress.Text);
+
+            UpdateProxy();
+            label4.Text = "Aktif";
+            label4.ForeColor = Color.Green;
+        }
+
+        private void guna2Button5_Click(object sender, EventArgs e)
+        {
+            //Temizle
+            proxyIP.Text = "";
+            proxyPORT.Text = "";
+            proxyAdress.Text = "";
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            //Devre Dışı Bırakır
+            registry.SetValue("ProxyEnable", 0);
+            registry.SetValue("ProxyServer", "");
+            registry.SetValue("ProxyOverride", "");
+            label4.Text = "Kapalı";
+            label4.ForeColor = Color.Red;
+        }
+
     }
 }
